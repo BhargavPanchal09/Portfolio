@@ -5,3 +5,10 @@
   overflow: hidden;
   touch-action: pan-y;
 }
+
+.statue-layer,
+.statue-layer .dither-veil,
+.statue-layer canvas {
+  background: transparent !important;
+  background-color: transparent !important;
+}

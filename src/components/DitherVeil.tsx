@@ -406,7 +406,7 @@ void main() {
   float appear = step(spread * 0.72 + bayer(cell + vec2(3.0, 5.0)) * 0.28, uIntro * 1.001);
   vec3 finalColor = mix(uInk, color, appear);
   float backgroundPixel = uKey * (1.0 - smoothstep(0.05, 0.22, distance(raw, uMatte)));
-  float alpha = 1.0 - backgroundPixel;
+  float alpha = (1.0 - backgroundPixel) * appear;
   fragColor = vec4(finalColor, alpha);
 }
 `;

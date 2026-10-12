@@ -1,23 +1,19 @@
-
 import { useEffect, useState } from 'react'
 import './GlimmerBackground.css'
 
+const initialGlimmers = Array.from({ length: 180 }, (_, index) => ({
+  id: index,
+  left: Math.random() * 100,
+  top: Math.random() * 100,
+  size: Math.random() * 3 + 1,
+  delay: Math.random() * 8,
+  duration: Math.random() * 5 + 6,
+}))
+
 function GlimmerBackground() {
-  const [glimmers, setGlimmers] = useState([])
   const [cursor, setCursor] = useState({ x: -1000, y: -1000 })
 
   useEffect(() => {
-    const particles = Array.from({ length: 180 }, (_, index) => ({
-      id: index,
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      size: Math.random() * 3 + 1,
-      delay: Math.random() * 8,
-      duration: Math.random() * 5 + 6,
-    }))
-
-    setGlimmers(particles)
-
     const handleMouseMove = (event) => {
       setCursor({ x: event.clientX, y: event.clientY })
     }
@@ -39,7 +35,7 @@ function GlimmerBackground() {
         }}
       />
 
-      {glimmers.map((glimmer) => (
+      {initialGlimmers.map((glimmer) => (
         <span
           key={glimmer.id}
           className="glimmer"
