@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&display=swap');
+
 /* Make the page fill the entire browser */
 html,
 body,
@@ -50,6 +52,7 @@ body,
   border: none;
   outline: none;
 }
+
 /* Wide, centered navigation that blends into space */
 .top-nav {
   position: fixed;
@@ -97,227 +100,170 @@ body,
   flex-wrap: nowrap;
 }
 
-.hero {
+/* Hero Stage - Full viewport presentation */
+.hero-stage {
   position: relative;
-  z-index: 3;
+  width: 100%;
+  min-height: 100svh;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  min-height: 100vh;
-  padding: 120px 9% 50px;
-  pointer-events: none;
+  justify-content: flex-start;
+  padding-top: 96px;
+  overflow: hidden;
 }
 
-.hero-content {
+/* Hero Header on top */
+.hero-header {
   position: relative;
-  z-index: 4;
-  width: 48%;
-  max-width: 570px;
-  text-align: left;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   pointer-events: auto;
+  padding: 0 16px;
+  animation: heroFadeDown 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .hero-eyebrow {
-  margin: 0 0 14px;
-  color: #c8c8ce;
-  font-size: 17px;
-  letter-spacing: 7px;
+  margin: 0 0 10px;
+  color: #c4b5fd;
+  font-size: clamp(14px, 1.35vw, 19px);
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  text-shadow: 0 0 18px rgba(167, 139, 250, 0.65), 0 0 35px rgba(139, 92, 246, 0.35);
 }
 
-.hero-content h1 {
-  margin: 0;
-  color: #fff;
-  font-size: clamp(54px, 5vw, 78px);
-  font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: 1px;
-}
-
-.hero-intro {
-  max-width: 570px;
-  margin: 20px 0 27px;
-  color: #c4c4ca;
-  font-size: clamp(17px, 1.55vw, 25px);
-  line-height: 1.55;
-}
-
-/* Hero buttons */
-.hero-buttons {
+.hero-title,
+.hero-title-wrap {
+  position: relative;
+  width: min(94vw, 920px);
+  height: clamp(62px, 8.5vw, 105px);
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.hero-button {
-  display: inline-flex;
-  align-items: center;
   justify-content: center;
-  min-height: 58px;
-  padding: 0 28px;
-  border: 1px solid #fff;
-  border-radius: 40px;
-  color: #fff;
-  font-size: 16px;
+  filter: drop-shadow(0 0 24px rgba(167, 139, 250, 0.45));
+}
+
+.hero-subtitle {
+  margin: 10px 0 0;
+  color: #d4c5fe;
+  font-size: clamp(12px, 1.25vw, 15px);
   font-weight: 600;
-  text-decoration: none;
-  transition:
-    background 0.25s ease,
-    color 0.25s ease,
-    transform 0.25s ease;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.9;
+  text-shadow: 0 0 14px rgba(167, 139, 250, 0.3);
 }
 
-.hero-button:hover {
-  transform: translateY(-3px);
+.hero-subtitle span {
+  color: #a78bfa;
+  margin: 0 8px;
 }
 
-.hero-button-primary {
-  background: #fff;
-  color: #080808;
+@keyframes heroFadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.hero-button-primary:hover {
-  background: #dedee4;
-}
-
-.hero-button-secondary {
-  background: transparent;
-}
-
-.hero-button-secondary:hover {
-  background: #fff;
-  color: #080808;
-}
-
-/* Skills */
-.hero-skills {
-  margin: 21px 0 0;
-  color: #c5c5cc;
-  font-size: 13px;
-  letter-spacing: 2.5px;
-  line-height: 1.8;
-}
-
-.hero-skills span {
-  margin: 0 5px;
-}
-
-/* Statue: restore its centered positioning */
+/* Statue Layer - Centered in stage below the header, enlarged and shifted downwards */
 .statue-layer {
   position: absolute;
-  top: 55px;
-  left: 79%;
-  transform: translateX(-50%);
-  width: min(52vw, 760px);
-  height: calc(100vh - 90px);
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -48%);
+  width: min(96vw, 900px);
+  height: calc(100svh - 110px);
+  max-height: 940px;
+  min-height: 520px;
   z-index: 2;
   pointer-events: auto;
-  overflow: hidden;
-  background: transparent;
-  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent !important;
+  border: none !important;
+}
+
+.statue-layer::before {
+  content: '';
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.24) 0%, rgba(124, 58, 237, 0.08) 55%, transparent 75%);
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(42px);
+  border-radius: 50%;
 }
 
 .statue-layer .dither-veil {
-  position: absolute;
-  inset: 0;
   width: 100%;
   height: 100%;
-  background: transparent;
-}
-.statue-layer {
   background: transparent !important;
-  border: none !important;
 }
 
 /* Responsive layout */
 @media (max-width: 768px) {
   .top-nav {
-    top: 18px;
-    width: calc(100% - 28px);
+    top: 16px;
+    width: calc(100% - 24px);
   }
 
-  .hero {
-    align-items: flex-end;
-    min-height: 100vh;
-    min-height: 100svh;
-    padding: 150px 7% 55px;
+  .hero-stage {
+    padding-top: 80px;
   }
 
-.hero-content {
-  width: min(570px, 48%);
-  pointer-events: auto;
-  position: relative;
-  z-index: 4;
-}
-
-  .hero-content h1 {
-    font-size: clamp(48px, 11vw, 72px);
-  }
-
-  .hero-intro {
-    max-width: 440px;
-    font-size: 17px;
+  .hero-title {
+    font-size: clamp(26px, 7vw, 44px);
+    letter-spacing: 0.02em;
   }
 
   .hero-eyebrow {
     font-size: 13px;
-    letter-spacing: 5px;
+    letter-spacing: 0.22em;
   }
 
-  .hero-skills {
-    max-width: 400px;
-    font-size: 10px;
-    letter-spacing: 1.5px;
-  }
-
-.hero-availability {
-  margin: 12px 0 0;
-  color: #92929c;
-  font-size: 13px;
-  line-height: 1.8;
-}
-
-.hero-availability span {
-  margin: 0 4px;
-}
-
-  .hero-button {
-    min-height: 49px;
-    padding: 0 20px;
-    font-size: 14px;
+  .hero-subtitle {
+    font-size: 11px;
+    letter-spacing: 0.16em;
   }
 
   .statue-layer {
-    top: 105px;
-    left: auto;
-    right: -20%;
-    transform: none;
-    width: 85%;
-    height: 65vh;
-    opacity: 0.65;
+    top: 65%;
+    width: 98vw;
+    height: calc(100svh - 120px);
   }
 }
 
-@media (max-width: 420px) {
-  .hero {
-    padding-left: 6%;
-    padding-right: 6%;
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: clamp(22px, 6.8vw, 32px);
   }
 
-  .hero-content h1 {
-    font-size: 47px;
+  .hero-eyebrow {
+    font-size: 12px;
   }
 
-  .hero-buttons {
-    gap: 10px;
+  .hero-subtitle {
+    letter-spacing: 0.12em;
   }
 
-  .hero-button {
-    padding: 0 16px;
+  .statue-layer {
+    top: 66%;
+    height: calc(100svh - 110px);
   }
-}
-/* Keep the hero as the first full-screen section */
-.hero {
-  min-height: 100vh;
 }
 
 /* Place projects below the homepage */

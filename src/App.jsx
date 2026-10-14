@@ -5,6 +5,8 @@ import './components/GooeyNav.css'
 import GlimmerBackground from './GlimmerBackground'
 import DitherVeil from './components/DitherVeil'
 import GooeyNav from './components/GooeyNav'
+import TechText from './components/TechText'
+import './components/TechText.css'
 import Projects from './Projects';
 
 function App() {
@@ -39,47 +41,37 @@ function App() {
         />
       </header>
 
-      <section className="hero">
-        <div className="hero-content">
-          <p className="hero-eyebrow">HELLO, I'M</p>
-
-          <h1>
-            BHARGAV
-            <br />
-            PANCHAL
-          </h1>
-
-          <p className="hero-intro">
-            Full-stack developer and AI/ML enthusiast
-            building practical applications, from
-            frontend interfaces to backend APIs
-            and intelligent models.
+      <div className="hero-stage">
+        <header className="hero-header">
+          <p className="hero-eyebrow">PORTFOLIO</p>
+          <div className="hero-title-wrap">
+            <TechText
+              text="BHARGAV PANCHAL"
+              fontFamily="'Plus Jakarta Sans', system-ui, sans-serif"
+              fontWeight={800}
+              fontSize={85}
+              letterSpacing={-0.02}
+              color="#ffffff"
+              accentColor="#a78bfa"
+              reveal="letter"
+              dashLength={4}
+              dashGap={2}
+              specks={15}
+              draggable={true}
+              sweep={true}
+              selection={true}
+              labels={true}
+            />
+          </div>
+          <p className="hero-subtitle">
+            FULL-STACK DEVELOPER <span>•</span> AI / MACHINE LEARNING
           </p>
+        </header>
 
-          <p className="hero-skills">
-            <span>•</span> REACT <span>•</span> NEXT.JS <span>•</span> 
-             FASTAPI <span>•</span>AI/ML
-          </p>
-
-          <p className="hero-availability">
-            Graduating May 2027
-            <span> • </span>
-            Open to internships from January 2027
-          </p>
+        <div className="statue-layer">
+          <DitherVeil />
         </div>
-      </section>
-
-      <div className="statue-layer">
-        <DitherVeil
-          style={{
-            position: 'absolute',
-            top: '50px',
-            left: 0,
-            width: '100%',
-            height: '100%',
-          }}
-        />
-      </div>  
+      </div>
       <Projects />
     </main>
   )
