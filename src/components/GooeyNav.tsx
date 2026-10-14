@@ -865,7 +865,23 @@ const GooeyNav = ({
         className: 'gooey-nav__link',
         'aria-current': index === current ? ('page' as const) : undefined,
         onClick: (event: MouseEvent) => {
-          if (!item.href || item.href === '#') event.preventDefault();
+          if (item.href === '#home') {
+            event.preventDefault();
+
+            select(index);
+
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth',
+            });
+
+            return;
+          }
+
+          if (!item.href || item.href === '#') {
+            event.preventDefault();
+          }
+
           select(index);
         }
       };
