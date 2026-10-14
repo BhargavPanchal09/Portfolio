@@ -29,7 +29,7 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow: clip;
   background: #000000;
 }
 
@@ -203,7 +203,7 @@ body,
 
 /* Statue: restore its centered positioning */
 .statue-layer {
-  position: fixed;
+  position: absolute;
   top: 55px;
   left: 79%;
   transform: translateX(-50%);
@@ -314,4 +314,18 @@ body,
   .hero-button {
     padding: 0 16px;
   }
+}
+/* Keep the hero as the first full-screen section */
+.hero {
+  min-height: 100vh;
+}
+
+/* Place projects below the homepage */
+.projects-section {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  min-height: 100vh;
+  margin-top: 0;
+  clear: both;
 }

@@ -5,6 +5,7 @@ import './components/GooeyNav.css'
 import GlimmerBackground from './GlimmerBackground'
 import DitherVeil from './components/DitherVeil'
 import GooeyNav from './components/GooeyNav'
+import Projects from './Projects';
 
 function App() {
   const items = [
@@ -78,7 +79,8 @@ function App() {
             height: '100%',
           }}
         />
-      </div>
+      </div>  
+      <Projects />
     </main>
   )
 }
