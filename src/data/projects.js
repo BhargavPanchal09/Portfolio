@@ -1,0 +1,58 @@
+export const projects = [
+  {
+    id: 1,
+    name: 'TrendSense',
+    category: 'MULTIMODAL AI',
+    description: 'An AI system for analyzing video content and predicting YouTube virality using text & visual features.',
+    details:
+      'A multimodal machine learning project combining text and visual features to analyze online video content. Leverages dual representations to detect emerging trends and forecast audience engagement metrics.',
+    tech: ['Python', 'PyTorch', 'CLIP', 'SBERT', 'Next.js'],
+    github: 'https://github.com/BhargavPanchal09/TrendSense---Studio',
+    summary: 'A creator assistant that evaluates a proposed video title, script hook, and thumbnail before publication.',
+    problem: 'Creators need a way to assess an idea before publishing, beyond looking at analytics after release.',
+    approach: 'The documented pipeline combines SBERT text embeddings and CLIP visual features with a PyTorch ensemble. Local Llama 3 and LLaVA models provide coaching suggestions through a Next.js dashboard and FastAPI backend.',
+    highlights: ['Title and thumbnail cohesion scoring', 'Multimodal prediction pipeline', 'Local AI coaching with Ollama'],
+    outcome: 'Brings a prediction score, title-thumbnail analysis, and an AI coaching report into one creator workflow.',
+    attribution: 'Based on TilakCSE/TrendSense---Studio. See the repository for project credits.',
+    source: 'https://github.com/BhargavPanchal09/TrendSense---Studio#readme',
+    demo: '',
+  },
+  {
+    id: 2,
+    name: 'NEXUS',
+    category: 'AI APPLICATION',
+    description: 'A real-time attendance application connecting a Next.js interface with a Python computer vision backend.',
+    details:
+      'NEXUS connects a webcam interface to a FastAPI backend over WebSockets. Facial embeddings are matched against registered identities to record attendance, with a separate dashboard for managing records.',
+    tech: ['Next.js', 'FastAPI', 'OpenCV', 'SQLite'],
+    github: 'https://github.com/BhargavPanchal09/NexusAttendance',
+    summary: 'A spatial attendance prototype with a live recognition interface and an administration dashboard.',
+    problem: 'Manual check-in creates repetitive work and separates attendance records from the recognition workflow.',
+    approach: 'Next.js streams webcam frames over WebSockets to a Python/FastAPI service. InsightFace embeddings are compared using cosine similarity, and SQLite stores identities and attendance records.',
+    highlights: ['Live recognition over WebSockets', 'Identity registration from the interface', 'Attendance cooldown and CSV export'],
+    outcome: 'Connects identity registration, live recognition, attendance records, and CSV reporting in a single application.',
+    source: 'https://github.com/BhargavPanchal09/NexusAttendance#readme',
+    demo: '',
+  },
+  {
+    id: 3,
+    name: 'Smart Library',
+    category: 'FULL-STACK',
+    description: 'A modern library management application featuring interactive 3D spatial catalog navigation.',
+    details:
+      'A full-stack application combining responsive web interfaces, relational PostgreSQL database, RESTful APIs, and Unity WebGL for 3D spatial book browsing and catalog navigation.',
+    tech: ['Next.js', 'FastAPI', 'PostgreSQL', 'Unity'],
+    github: 'https://github.com/BhargavPanchal09/Smart-Library-System',
+    demo: 'https://smart-library-system-orpin.vercel.app',
+    demoNote: 'The demo requires an authorized student login or university Microsoft SSO.',
+    summary: 'A spatial library application that connects a searchable catalog with a 3D view of physical racks and shelves.',
+    problem: 'Finding a catalog entry does not always tell a student where the physical book is located.',
+    approach: 'The documented system connects a Next.js interface to FastAPI and PostgreSQL, with Unity WebGL for spatial browsing and Firebase authentication for access.',
+    highlights: ['3D rack and shelf navigation', 'Borrowing and overdue-fine dashboard', 'University sign-in through Firebase'],
+    outcome: 'Connects catalog search with physical book locations, borrowing records, and a student dashboard.',
+    attribution: 'Project documentation credits Tilaksinh Chauhan. See the repository for project credits.',
+    source: 'https://github.com/BhargavPanchal09/Smart-Library-System#readme',
+  },
+];
+
+

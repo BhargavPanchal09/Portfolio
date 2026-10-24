@@ -1,0 +1,30 @@
+/* Progressive enhancement: content stays visible without JavaScript.
+   Separate translate preserves each card's existing hover transform. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-scroll-ready="true"] [data-reveal][data-scroll-state] {
+    transition:
+      opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
+      translate 800ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 300ms ease,
+      border-color 300ms ease,
+      box-shadow 350ms ease,
+      background-color 300ms ease;
+  }
+  [data-scroll-ready="true"] [data-reveal][data-scroll-state="pending"] {
+    opacity: 0;
+    translate: 0 var(--reveal-offset, 36px);
+    transition-delay: 0ms;
+  }
+  [data-scroll-ready="true"] [data-reveal][data-scroll-state="visible"] {
+    opacity: 1;
+    translate: 0 0;
+    transition-delay: var(--reveal-delay, 0ms), var(--reveal-delay, 0ms), 0ms, 0ms, 0ms, 0ms;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-scroll-ready="true"] [data-reveal][data-scroll-state] {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+}

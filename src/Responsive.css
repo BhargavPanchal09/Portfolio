@@ -1,0 +1,109 @@
+/* Device adaptations only: keep the established desktop composition and theme. */
+.hero-header,
+.projects-grid > *,
+.about-story > *,
+.about-skills-grid > *,
+.contact-channels > * {
+  min-width: 0;
+}
+
+.hero-header { max-width: 100%; }
+.hero-title-wrap { max-width: 100%; }
+.hero-subtitle { max-width: 100%; line-height: 1.8; }
+.project-card-name,
+.project-modal h2,
+.project-tag-pill,
+.project-modal-tech > span,
+.about-skill-card li { overflow-wrap: anywhere; }
+.projects-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+/* Leave a gutter around native dialogs, including browser toolbars/notches. */
+.project-modal {
+  width: min(620px, calc(100% - 32px));
+  max-height: calc(100vh - 40px);
+  max-height: calc(100dvh - 40px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  overflow-wrap: anywhere;
+}
+.project-close { width: 44px; height: 44px; }
+.project-modal > h2 { padding-right: 38px; }
+.project-modal-links a { min-height: 44px; display: inline-flex; align-items: center; }
+.portfolio-footer { padding-bottom: max(28px, env(safe-area-inset-bottom, 0px)); }
+
+@media (max-width: 1024px) {
+  .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 768px) {
+  .top-nav {
+    top: max(12px, env(safe-area-inset-top, 0px));
+    width: calc(100% - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+  }
+  .top-nav .gooey-nav {
+    --gn-font: clamp(11px, 2.8vw, 14px);
+    --gn-x: clamp(5px, 1.8vw, 14px);
+    --gn-y: 10px;
+    --gn-gap: 2px;
+    --gn-pad: 4px;
+  }
+  .top-nav .gooey-nav__item { flex: 1; min-width: 0; }
+  .top-nav .gooey-nav__link { width: 100%; min-height: 44px; justify-content: center; }
+
+  /* Normal flow keeps the canvas below the title, even with wrapped text or zoom. */
+  .hero-stage { padding-top: calc(88px + env(safe-area-inset-top, 0px)); }
+  .statue-layer {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    flex-shrink: 0;
+    margin-top: 16px;
+    width: min(98%, 700px);
+    height: clamp(300px, 62svh, 650px);
+    min-height: 0;
+    max-height: none;
+  }
+  .statue-layer::before { width: min(80vw, 400px); height: min(80vw, 400px); }
+  .hero-subtitle { text-wrap: balance; }
+}
+
+@media (max-width: 680px) {
+  .projects-grid { grid-template-columns: minmax(0, 1fr); }
+  .projects-section { min-height: auto; }
+  .project-modal { padding: 28px 20px; border-radius: 18px; }
+  .project-card-description,
+  .about-story p,
+  .contact-intro { font-size: 15px; }
+  .portfolio-footer { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .portfolio-footer nav { gap: 8px 20px; }
+}
+
+/* Short landscape viewports need vertical scrolling, rather than overlapping art. */
+@media (max-height: 600px) and (min-width: 769px),
+       (max-height: 500px) and (orientation: landscape) {
+  .hero-stage { padding-top: calc(88px + env(safe-area-inset-top, 0px)); }
+  .statue-layer {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: min(80vw, 620px);
+    height: clamp(220px, 65svh, 380px);
+    min-height: 0;
+    max-height: none;
+    margin-top: 12px;
+  }
+}
+
+/* Touch devices retain the glow, without a sticky simulated hover lift. */
+@media (hover: none) {
+  .projects-grid.in-view .project-card:hover { transform: none; }
+  .cursor-glow { display: none; }
+}
+
+@media (max-width: 359px) {
+  .hero-subtitle { font-size: 10px; letter-spacing: 0.08em; }
+  .hero-subtitle span { margin: 0 4px; }
+  .project-card { padding: 24px 18px; }
+  .project-card-badge { font-size: 9px; letter-spacing: 0.1em; }
+  .contact-channel { padding: 22px 18px; }
+}

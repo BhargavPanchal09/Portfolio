@@ -8,8 +8,16 @@ import GooeyNav from './components/GooeyNav'
 import TechText from './components/TechText'
 import './components/TechText.css'
 import Projects from './Projects';
+import Contact from './Contact'
+import About from './About'
+import useScrollReveal from './useScrollReveal'
+import { useState } from 'react'
+import ScrollTools from './ScrollTools'
+import './Responsive.css'
 
 function App() {
+  const pageRef = useScrollReveal()
+  const [activeSection, setActiveSection] = useState(0)
   const items = [
     { label: 'Home', href: '#home' },
     { label: 'Work', href: '#work' },
@@ -18,13 +26,15 @@ function App() {
   ]
 
   return (
-    <main className="portfolio" id="home">
+    <main className="portfolio" id="home" ref={pageRef}>
       <GlimmerBackground />
+      <ScrollTools onSectionChange={setActiveSection} />
 
       <header className="top-nav">
         <GooeyNav
           items={items}
           initialActiveIndex={0}
+          activeIndex={activeSection}
           theme="dark"
           size="md"
           frame
@@ -35,9 +45,7 @@ function App() {
           gooeyness={0.5}
           wobble={0.5}
           hoverEffect
-          onChange={(index, item) =>
-            console.log(index, item.label)
-          }
+          onChange={setActiveSection}
         />
       </header>
 
@@ -73,6 +81,17 @@ function App() {
         </div>
       </div>
       <Projects />
+      <About />
+      <Contact />
+      <footer className="portfolio-footer">
+        <p>© {new Date().getFullYear()} Bhargav Panchal</p>
+        <nav aria-label="Footer">
+          <a href="#work">Work</a>
+          <a href="#about">About</a>
+          <a href="https://github.com/BhargavPanchal09" target="_blank" rel="noreferrer">GitHub ↗</a>
+          <a href="https://www.linkedin.com/in/bhargav-panchal" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+        </nav>
+      </footer>
     </main>
   )
 }

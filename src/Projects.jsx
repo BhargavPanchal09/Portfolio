@@ -1,82 +1,58 @@
 import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import { projects } from './data/projects';
 import './Projects.css';
-
-const projects = [
-  {
-    id: 1,
-    name: 'TrendSense',
-    category: 'MULTIMODAL AI',
-    description: 'An AI system for analyzing video content and predicting YouTube virality using text & visual features.',
-    details:
-      'A multimodal machine learning project combining text and visual features to analyze online video content. Leverages dual representations to detect emerging trends and forecast audience engagement metrics.',
-    tech: ['Python', 'PyTorch', 'CLIP', 'SBERT', 'Next.js'],
-    github: '',
-    demo: '',
-  },
-  {
-    id: 2,
-    name: 'NEXUS',
-    category: 'AI APPLICATION',
-    description: 'Document intelligence platform powered by computer vision and high-performance backend APIs.',
-    details:
-      'An enterprise document processing application built with a modern React frontend, FastAPI Python backend, and computer vision pipelines for automated structural analysis and text extraction.',
-    tech: ['Next.js', 'FastAPI', 'OpenCV', 'SQLite'],
-    github: '',
-    demo: '',
-  },
-  {
-    id: 3,
-    name: 'Smart Library',
-    category: 'FULL-STACK',
-    description: 'A modern library management application featuring interactive 3D spatial catalog navigation.',
-    details:
-      'A full-stack application combining responsive web interfaces, relational PostgreSQL database, RESTful APIs, and Unity WebGL for 3D spatial book browsing and catalog navigation.',
-    tech: ['Next.js', 'FastAPI', 'PostgreSQL', 'Unity'],
-    github: '',
-    demo: '',
-  },
-];
 
 export default function Projects() {
   const [activeProject, setActiveProject] = useState(null);
-  const [inView, setInView] = useState(false);
-  const sectionRef = useRef(null);
+  const dialogRef = useRef(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-        }
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
-    );
+    if (!activeProject) return;
+    const dialog = dialogRef.current;
+    const previousFocus = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    dialog.showModal();
+    dialog.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      dialog.close();
+      document.body.style.overflow = previousOverflow;
+      previousFocus?.focus({ preventScroll: true });
+    };
+  }, [activeProject]);
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  // Update CSS variables directly, avoiding React renders during pointer movement.
+  const moveGlow = (event) => {
+    if (event.pointerType !== 'mouse' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const card = event.currentTarget;
+    const bounds = card.getBoundingClientRect();
+    card.style.setProperty('--glow-x', `${event.clientX - bounds.left}px`);
+    card.style.setProperty('--glow-y', `${event.clientY - bounds.top}px`);
+  };
 
   return (
-    <section className="projects-section" id="work" ref={sectionRef}>
+    <section className="projects-section" id="work" aria-labelledby="work-title">
       <div className="projects-ambient-glow" aria-hidden="true" />
 
-      <header className={`projects-heading ${inView ? 'in-view' : ''}`}>
+      <header className="projects-heading in-view" data-reveal>
         <p className="projects-eyebrow">SELECTED WORK</p>
-        <h2 className="projects-title">Things I've built.</h2>
+        <h2 id="work-title" className="projects-title">Things I've built.</h2>
         <span className="projects-subtitle">
           Applications, experiments, and intelligent systems brought to life.
         </span>
       </header>
 
-      <div className={`projects-grid ${inView ? 'in-view' : ''}`}>
+      <div className="projects-grid in-view">
         {projects.map((project, index) => (
           <article
             key={project.id}
             className="project-card"
-            style={{ '--card-index': index }}
+            data-reveal
+            data-reveal-delay={(index % 3) * 70}
+            onPointerMove={moveGlow}
+            aria-label={`Explore ${project.name}`}
+            aria-haspopup="dialog"
             onClick={() => setActiveProject(project)}
             tabIndex={0}
             role="button"
@@ -87,10 +63,10 @@ export default function Projects() {
               }
             }}
           >
-            <div className="card-ambient-highlight" />
+            <div className="card-ambient-highlight" aria-hidden="true" />
 
             <div className="project-card-header">
-              <span className="project-card-num">0{index + 1}</span>
+              <span className="project-card-num">{String(index + 1).padStart(2, '0')}</span>
               <span className="project-card-badge">{project.category}</span>
             </div>
 
@@ -127,22 +103,27 @@ export default function Projects() {
         ))}
       </div>
 
-      {activeProject && (
-        <div
-          className="project-modal-backdrop"
-          onClick={() => setActiveProject(null)}
-        >
-          <article
+      <a className="projects-browse-link" href="https://github.com/BhargavPanchal09?tab=repositories" target="_blank" rel="noreferrer">
+        More experiments on GitHub ↗
+      </a>
+
+      {activeProject && createPortal(
+          <dialog
+            ref={dialogRef}
             className="project-modal"
-            role="dialog"
-            aria-modal="true"
             aria-labelledby="project-modal-title"
-            onClick={(event) => event.stopPropagation()}
+            onCancel={() => setActiveProject(null)}
+            onClick={(event) => {
+              if (event.target !== event.currentTarget) return;
+              const bounds = event.currentTarget.getBoundingClientRect();
+              if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) setActiveProject(null);
+            }}
           >
             <button
               className="project-close"
               onClick={() => setActiveProject(null)}
               aria-label="Close project details"
+              autoFocus
             >
               ×
             </button>
@@ -152,6 +133,23 @@ export default function Projects() {
             <h2 id="project-modal-title">{activeProject.name}</h2>
 
             <p className="project-modal-details">{activeProject.details}</p>
+
+            {activeProject.summary && (
+              <div className="project-case-study">
+                <h3>At a glance</h3>
+                <p>{activeProject.summary}</p>
+                <h3>The problem</h3>
+                <p>{activeProject.problem}</p>
+                <h3>How it works</h3>
+                <p>{activeProject.approach}</p>
+                {activeProject.highlights?.length > 0 && (
+                  <ul>{activeProject.highlights.map(highlight => <li key={highlight}>{highlight}</li>)}</ul>
+                )}
+                <h3>Project outcome</h3>
+                <p>{activeProject.outcome}</p>
+                {activeProject.role && <><h3>My contribution</h3><p>{activeProject.role}</p></>}
+              </div>
+            )}
 
             <h3>Technology Stack</h3>
             <div className="project-modal-tech">
@@ -189,8 +187,10 @@ export default function Projects() {
                 </span>
               )}
             </div>
-          </article>
-        </div>
+            {activeProject.demoNote && <p className="project-source-note">{activeProject.demoNote}</p>}
+            {activeProject.attribution && <p className="project-source-note">{activeProject.attribution}</p>}
+            {activeProject.source && <a className="project-source-link" href={activeProject.source} target="_blank" rel="noreferrer">Read the project documentation ↗</a>}
+          </dialog>, document.body
       )}
     </section>
   );

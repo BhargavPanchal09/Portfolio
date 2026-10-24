@@ -1,9 +1,10 @@
 /* Projects Section */
 .projects-section {
+  scroll-margin-top: 100px;
   position: relative;
   width: 100%;
   min-height: 100vh;
-  padding: 130px 24px 100px;
+  padding: 64px 24px 100px;
   overflow: hidden;
   color: #f5f5f7;
   background: transparent;
@@ -34,8 +35,8 @@
   margin: 0 auto;
   position: relative;
   z-index: 2;
-  opacity: 0;
-  transform: translateY(30px);
+  opacity: 1;
+  transform: none;
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -100,15 +101,14 @@
   text-align: left;
   outline: none;
   overflow: hidden;
-  opacity: 0;
-  transform: translateY(40px);
+  opacity: 1;
+  transform: none;
   transition:
     opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
     border-color 0.3s ease,
     box-shadow 0.35s ease,
     background 0.3s ease;
-  transition-delay: calc(var(--card-index, 0) * 130ms);
 }
 
 .projects-grid.in-view .project-card {
@@ -116,8 +116,8 @@
   transform: translateY(0);
 }
 
-.project-card:hover,
-.project-card:focus-visible {
+.projects-grid.in-view .project-card:hover,
+.projects-grid.in-view .project-card:focus-visible {
   transform: translateY(-8px);
   border-color: rgba(167, 139, 250, 0.45);
   background: rgba(22, 20, 32, 0.8);
@@ -127,12 +127,50 @@
 }
 
 /* Card Header */
+.card-ambient-highlight {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(360px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(167, 139, 250, 0.19), transparent 70%);
+  transition: opacity 220ms ease;
+}
+
+.project-card > :not(.card-ambient-highlight) {
+  position: relative;
+}
+
+.project-card:hover .card-ambient-highlight,
+.project-card:focus-visible .card-ambient-highlight {
+  opacity: 1;
+}
+
+.project-card:focus-visible {
+  outline: 2px solid #c4b5fd;
+  outline-offset: 4px;
+}
+
+.projects-browse-link {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 20px;
+  color: #c4b5fd;
+  font-size: 13px;
+  text-underline-offset: 5px;
+}
+
 .project-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   margin-bottom: 24px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .project-card-num {
@@ -244,7 +282,9 @@
 }
 
 .project-modal {
-  position: relative;
+  position: fixed;
+  inset: 0;
+  height: max-content;
   width: min(620px, 100%);
   max-height: 85vh;
   overflow-y: auto;
@@ -257,6 +297,51 @@
     0 25px 80px rgba(0, 0, 0, 0.7),
     0 0 50px rgba(167, 139, 250, 0.12);
   animation: modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  margin: auto;
+  text-align: left;
+  overscroll-behavior: contain;
+}
+
+.project-modal::backdrop {
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(12px);
+}
+
+.project-modal:focus-visible,
+.project-modal a:focus-visible,
+.project-modal button:focus-visible,
+.projects-browse-link:focus-visible {
+  outline: 2px solid #c4b5fd;
+  outline-offset: 4px;
+}
+
+.project-modal > h2 { padding-right: 30px; }
+.project-case-study { padding-top: 2px; border-top: 1px solid rgba(167, 139, 250, 0.14); }
+.project-case-study p,
+.project-case-study li { color: #b4b4bd; font-size: 14px; line-height: 1.8; }
+.project-case-study ul { padding-left: 20px; margin: 18px 0; }
+.project-case-study li + li { margin-top: 6px; }
+.project-case-study li::marker { color: #a78bfa; }
+.project-source-note { margin: 18px 0 0; color: #a1a1aa; font-size: 12px; line-height: 1.7; }
+.project-source-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 8px; color: #c4b5fd; font-size: 12px; text-underline-offset: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card,
+  .projects-heading,
+  .card-ambient-highlight,
+  .project-card-name,
+  .project-tag-pill,
+  .project-card-action,
+  .action-arrow,
+  .project-close,
+  .modal-link-btn { transition: none; }
+  .project-modal,
+  .project-modal-backdrop { animation: none; }
+  .projects-grid.in-view .project-card:hover,
+  .projects-grid.in-view .project-card:focus-visible,
+  .project-card:hover .action-arrow,
+  .modal-link-btn:hover,
+  .project-close:hover { transform: none; }
 }
 
 .project-close {
@@ -383,7 +468,7 @@
 
 @media (max-width: 680px) {
   .projects-section {
-    padding: 100px 16px 70px;
+    padding: 48px 16px 70px;
   }
 
   .projects-grid {
@@ -400,4 +485,12 @@
   .project-modal {
     padding: 28px 20px;
   }
+}
+
+/* Keep motion overrides after all hover and transition rules. */
+@media (prefers-reduced-motion: reduce) {
+  .project-close,
+  .modal-link-btn { transition: none; }
+  .project-close:hover,
+  .modal-link-btn:hover { transform: none; }
 }
